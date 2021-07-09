@@ -1,5 +1,6 @@
 package com.kabir.milton;
 
+import java.math.BigInteger;
 import java.util.Scanner;
 
 public class Main {
@@ -8,39 +9,43 @@ public class Main {
 	// write your code here
         Scanner sc=new Scanner(System.in);
         while(true){
-            System.out.println("Do you want to convert /from decimal or /to decimal? (To quit type /exit)");
-            String st=sc.nextLine();
-            if(st.equals("/from")){
-                System.out.println("Enter a number in decimal system:");
-                String s1=sc.nextLine();
-                int x=Integer.parseInt(s1);
-                System.out.println("Enter the target base:");
-                String s2=sc.nextLine();
-                int b=Integer.parseInt(s2);
-                String res;
-                if (b==2){
-                    res=Integer.toBinaryString(x);
+            System.out.println("Enter two numbers in format: {source base} {target base} (To quit type /exit)");
+            String[] st=sc.nextLine().split(" ");
+            if(st.length==2){
+                int a=Integer.parseInt(st[0]);
+                int b=Integer.parseInt(st[1]);
+                while(true){
+                    System.out.println("Enter number in base "+a+" to convert to base "+b+" (To go back type /back)");
+                    String ss=sc.nextLine();
+                    if(ss.equals("/back")){
+                        break;
+                    }
+                    String ans=convertInteger(ss,a,b);
+                    System.out.println("Conversion result: "+ans);
+                    System.out.println();
                 }
-                else if(b==8){
-                    res=Integer.toOctalString(x);
-                }
-                else{
-                    res=Integer.toHexString(x);
-                }
-                System.out.println("Conversion to decimal result: "+res);
-            }
-            else if(st.equals("/to")){
-                System.out.println("Enter source number:");
-                String s1=sc.nextLine();
-                System.out.println("Enter source base:");
-                String s2=sc.nextLine();
-                int b=Integer.parseInt(s2);
-                System.out.println("Conversion to decimal result: "+Integer.parseInt(s1,b));
             }
             else{
                 break;
             }
-        }
 
+//            else if(st.equals("/to")){
+//                System.out.println("Enter source number:");
+//                String s1=sc.nextLine();
+//                System.out.println("Enter source base:");
+//                String s2=sc.nextLine();
+//                int b=Integer.parseInt(s2);
+//                System.out.println("Conversion to decimal result: "+Integer.parseInt(s1,b));
+//            }
+
+        }
+    }
+    public static String convertInteger(String theValue, int initialBase, int finalBase) {
+
+        BigInteger bigInteger = new BigInteger(theValue,initialBase);
+        String value = bigInteger.toString(finalBase);
+        value = value.toUpperCase();
+
+        return value;
     }
 }
